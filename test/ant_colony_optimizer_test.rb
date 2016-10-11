@@ -91,5 +91,18 @@ class AntColonyOptimizerTest < Test::Unit::TestCase
       path == [0, 3, 1, 2, 0] or path == [0, 2, 1, 3, 0]
     end
   end
+
+  def test_optimize_unbalanced
+    matrix = [ [ 0.0, 1.0, 2.0, 3.0 ],
+               [ 2.0, 0.0, 1.0, 3.0 ],
+               [ 6.0, 2.0, 0.0, 9.0 ],
+               [ 4.0, 1.0, 3.0, 0.0 ] ]
+    colony = AntColonyOptimizer.new(matrix)
+    path, cost = colony.optimize(200)
+    assert_equal(10, cost)
+    power_assert do
+      path == [0, 3, 2, 1, 0]
+    end
+  end
 end
 
