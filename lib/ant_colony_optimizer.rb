@@ -117,12 +117,18 @@ class AntColonyOptimizer
     [best_path, min_cost]
   end
 
-  def optimize(iteration)
-    iteration.times do
+  def optimize(iteration, best_path_callback: nil)
+    iteration.times do |i|
       path, cost = step
+      if block_given?
+        yield [i, path, cost]
+      end
       if cost < @min_cost
         @min_cost = cost
         @best_path = path
+        if best_path_callback.respond_to?(:call)
+          best_path_callback.call(i, path, cost)
+        end
       end
     end
     [@best_path, @min_cost]
