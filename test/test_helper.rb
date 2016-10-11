@@ -20,7 +20,6 @@ rescue Bundler::BundlerError => e
 end
 
 require 'test/unit'
-require 'test/unit/power_assert'
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'ant_colony_optimizer'
