@@ -1,7 +1,7 @@
 # coding: utf-8
 # frozen-string-literal: true
 
-class AntColony
+class AntColonyOptimizer
   def initialize(graph_matrix, alpha: 1, beta: 0.5, ro: 0.8, ants: graph_matrix[0].size, q: 1.0)
     @matrix = graph_matrix
     @node_num = @matrix.size
