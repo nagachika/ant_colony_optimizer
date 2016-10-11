@@ -11,6 +11,8 @@ class AntColonyOptimizer
     @q = q
     @ants = ants
     initialize_pheromone
+    @min_cost = Float::MAX
+    @best_path = nil
   end
 
   def self.greedy_path_cost(matrix, start)
@@ -116,15 +118,13 @@ class AntColonyOptimizer
   end
 
   def optimize(iteration)
-    min_cost = Float::MAX
-    best_path = nil
     iteration.times do
       path, cost = step
-      if cost < min_cost
-        min_cost = cost
-        best_path = path
+      if cost < @min_cost
+        @min_cost = cost
+        @best_path = path
       end
     end
-    [best_path, min_cost]
+    [@best_path, @min_cost]
   end
 end
