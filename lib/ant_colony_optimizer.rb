@@ -2,7 +2,7 @@
 # frozen-string-literal: true
 
 class AntColonyOptimizer
-  def initialize(graph_matrix, alpha: 1, beta: 0.5, ro: 0.8, ants: graph_matrix[0].size, q: 1.0)
+  def initialize(graph_matrix, alpha: 1.0, beta: 0.5, ro: 0.8, ants: graph_matrix[0].size, q: 1.0)
     @matrix = graph_matrix
     @node_num = @matrix.size
     @alpha = alpha
@@ -13,11 +13,12 @@ class AntColonyOptimizer
     initialize_pheromone
   end
 
-  def greedy_path_cost(matrix, start)
+  def self.greedy_path_cost(matrix, start)
+    node_num = matrix.size
     visited = [start]
     i = start
     cost = 0.0
-    while visited.size < @node_num
+    while visited.size < node_num
       min_cost = Float::MAX
       next_cand = nil
       matrix[i].each_with_index do |c, j|
@@ -37,7 +38,7 @@ class AntColonyOptimizer
   def initialize_pheromone
     total_greedy_path_cost = 0
     @node_num.times do |i|
-      total_greedy_path_cost += greedy_path_cost(@matrix, i)
+      total_greedy_path_cost += self.class.greedy_path_cost(@matrix, i)
     end
     avg = total_greedy_path_cost.to_f / @node_num
     initial_phero = @ants / avg
