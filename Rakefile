@@ -11,4 +11,4 @@ Rake::TestTask.new(:test) do |t|
   end
 end
 
-task :default => :spec
+task :default => :test
