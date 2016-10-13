@@ -46,7 +46,7 @@ class AntColonyOptimizer
     initial_phero = @ants / avg
     @pheromone = @node_num.times.map{|i|
       @node_num.times.map{|j|
-        if i == j
+        if i == j or @matrix[i][j] == 0
           0
         else
           initial_phero
@@ -57,6 +57,7 @@ class AntColonyOptimizer
 
   def find_path
     # start from index 0
+    costs = []
     cost = 0.0
     i = 0
     visited = [0]
@@ -64,7 +65,11 @@ class AntColonyOptimizer
     until remain.empty?
       sum = 0.0
       probs = remain.map{|j|
-        p = (@pheromone[i][j] ** @alpha) * (@matrix[i][j] ** -@beta)
+        if @matrix[i][j] == 0
+          p = 0.0
+        else
+          p = (@pheromone[i][j] ** @alpha) * (@matrix[i][j] ** -@beta)
+        end
         sum += p
         sum
       }
@@ -74,17 +79,23 @@ class AntColonyOptimizer
       remain.delete(next_i)
       visited << next_i
       cost += @matrix[i][next_i]
+      if @matrix[0][next_i] == 0
+        costs << cost
+        cost = 0.0
+      end
       i = next_i
     end
     visited << 0
     cost += @matrix[i][0]
-    [visited, cost]
+    costs << cost
+    [visited, costs.max]
   end
 
   def update_pheromone(paths)
     @node_num.times do |i|
       @node_num.times do |j|
         next if i == j
+        next if @matrix[i][j] == 0.0
         curr = @pheromone[i][j]
         new = curr * @ro + paths.inject(0.0){|sum, (path, cost)|
           if path.each_cons(2).find{|cons| cons == [i,j] or cons == [j,i] }
