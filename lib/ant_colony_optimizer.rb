@@ -73,8 +73,13 @@ class AntColonyOptimizer
         sum += p
         sum
       }
-      probs.map!{|p| p / sum }
-      idx = probs.index{|p| p > rand }
+      if sum == 0.0
+        idx = 0
+      else
+        probs.map!{|p| p / sum }
+        idx = probs.index{|p| p > rand }
+        raise "idx is nil #{probs.inspect}" if idx.nil?
+      end
       next_i = remain[idx]
       remain.delete(next_i)
       visited << next_i
