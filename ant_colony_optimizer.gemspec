@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Ant Colony Optimizer Library}
   spec.description   = %q{Ant Colony Optimizer Library}
-  spec.homepage      = "https://github.org/nagachika/ant_colony_optimizer"
+  spec.homepage      = "https://github.com/nagachika/ant_colony_optimizer"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
